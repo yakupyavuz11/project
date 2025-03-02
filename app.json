@@ -1,0 +1,53 @@
+{
+  "expo": {
+    "name": "Namaz Vakti",
+    "slug": "namaz-vakti",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/icon.png",
+    "userInterfaceStyle": "automatic",
+    "splash": {
+      "image": "./assets/images/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#4CAF50"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.namazvakti.app",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "Namaz vakitlerini ve kıble yönünü hesaplamak için konumunuza ihtiyacımız var.",
+        "NSLocationAlwaysUsageDescription": "Namaz vakitlerini ve kıble yönünü hesaplamak için konumunuza ihtiyacımız var.",
+        "UIBackgroundModes": [
+          "location",
+          "fetch"
+        ]
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/images/adaptive-icon.png",
+        "backgroundColor": "#4CAF50"
+      },
+      "package": "com.namazvakti.app",
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "ACCESS_FINE_LOCATION"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/images/favicon.png"
+    },
+    "plugins": [
+      "expo-location",
+      "expo-sensors"
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "your-project-id"
+      }
+    }
+  }
+}
