@@ -8,6 +8,7 @@ const resources = {
   tr: {
     translation: {
       // Ana Sayfa
+      ramadan_welcome: 'Hayırlı Ramazanlar',
       welcome: 'Hoş Geldiniz',
       prayerTimes: 'Namaz Vakitleri',
       nextPrayer: 'Sıradaki Namaz',
@@ -65,6 +66,7 @@ const resources = {
   en: {
     translation: {
       // Home
+      ramadan_welcome: 'Happy Ramadan',
       welcome: 'Welcome',
       prayerTimes: 'Prayer Times',
       nextPrayer: 'Next Prayer',
@@ -117,11 +119,13 @@ const resources = {
       forgotPassword: 'Forgot Password',
       name: 'Full Name',
       confirmPassword: 'Confirm Password',
+
     },
   },
   ar: {
     translation: {
       // الصفحة الرئيسية
+      welcome_ramadan: 'مرحباً بكم في رمضان',
       welcome: 'مرحباً بكم',
       prayerTimes: 'أوقات الصلاة',
       nextPrayer: 'الصلاة القادمة',

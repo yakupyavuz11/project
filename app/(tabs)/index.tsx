@@ -225,9 +225,9 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={[styles.safeArea, { backgroundColor: theme.background }]}>
       <View style={[styles.header, { borderBottomColor: theme.border }]}>
-        <Text style={[styles.welcomeText, { color: theme.primary }]}>{t('welcome')}</Text>
+        <Text style={[styles.welcomeText, { color: theme.primary }]}>{t('ramadan_welcome')}</Text>
         <TouchableOpacity
-          onPress={() => router.push('/(tabs)/settings')}
+          onPress={() => router.push('/settings')}
           style={styles.settingsButton}
         >
           <Settings size={24} color={theme.primary} />

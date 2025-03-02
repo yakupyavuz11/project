@@ -33,9 +33,9 @@ interface Theme {
 }
 
 const lightTheme: Theme = {
-  background: '#FFFFFF',
+  background: '#F7F7F7',
   surface: '#F5F5F5',
-  primary: '#2E7D32',
+  primary: '#051a2d',
   secondary: '#1976D2',
   border: '#E0E0E0',
   error: '#D32F2F',
