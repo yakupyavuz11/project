@@ -24,8 +24,8 @@ import {
   Star,
   Globe
 } from 'lucide-react-native';
-import { useTheme } from '../context/ThemeContext';
-import { useLanguage } from '../context/LanguageContext';
+import { useTheme } from './context/ThemeContext';
+import { useLanguage } from './context/LanguageContext';
 import { useTranslation } from 'react-i18next';
 
 export default function SettingsScreen() {
