@@ -1,39 +1,30 @@
-import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Switch,
-  Alert,
-  ScrollView,
-  ActionSheetIOS,
-  Platform
-} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Switch, ScrollView, ActionSheetIOS, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import {
-  Bell,
-  Moon,
-  Settings,
-  LogOut,
-  ChevronRight,
-  User,
-  Info,
-  Mail,
-  Star,
-  Globe
-} from 'lucide-react-native';
+import { Bell, Moon, Settings, ChevronRight, Star, Info, Globe } from 'lucide-react-native';
 import { useTheme } from './context/ThemeContext';
 import { useLanguage } from './context/LanguageContext';
 import { useTranslation } from 'react-i18next';
+import CustomAlert from './components/CustomAlert';
 
 export default function SettingsScreen() {
   const router = useRouter();
   const { theme, isDark, toggleTheme } = useTheme();
   const { language, setLanguage } = useLanguage();
   const { t } = useTranslation();
-  const [notifications, setNotifications] = React.useState(true);
+  const [notifications, setNotifications] = useState(true);
+  const [alertVisible, setAlertVisible] = useState(false);
+  const [alertConfig, setAlertConfig] = useState({ title: '', message: '', buttons: [] });
+
+  const showAlert = (title, message, buttons) => {
+    setAlertConfig({ title, message, buttons });
+    setAlertVisible(true);
+  };
+
+  const hideAlert = () => {
+    setAlertVisible(false);
+  };
 
   const handleLanguageChange = () => {
     if (Platform.OS === 'ios') {
@@ -49,37 +40,20 @@ export default function SettingsScreen() {
         }
       );
     } else {
-      Alert.alert(
+      showAlert(
         t('language'),
         t('selectLanguage'),
         [
           { text: 'Türkçe', onPress: () => setLanguage('tr') },
           { text: 'English', onPress: () => setLanguage('en') },
           { text: 'العربية', onPress: () => setLanguage('ar') },
-          { text: t('cancel'), style: 'cancel' },
+          { text: t('cancel'), onPress: hideAlert, style: 'cancel' },
         ]
       );
     }
   };
 
-  const handleLogout = () => {
-    Alert.alert(
-      t('logout'),
-      t('logoutConfirm'),
-      [
-        {
-          text: t('cancel'),
-          style: 'cancel'
-        },
-        {
-          text: t('logout'),
-          style: 'destructive',
-          onPress: () => router.replace('/login')
-        }
-      ]
-    );
-  };
-
+  // SettingItem bileşenini tanımlıyoruz
   const SettingItem = ({ icon, title, value, onPress, isSwitch = false }) => (
     <TouchableOpacity
       style={[
@@ -116,22 +90,6 @@ export default function SettingsScreen() {
           <Text style={[styles.headerTitle, { color: theme.text.primary }]}>
             {t('settings')}
           </Text>
-        </View>
-
-        <View style={styles.section}>
-          <Text style={[styles.sectionTitle, { color: theme.text.secondary }]}>
-            {t('account')}
-          </Text>
-          <SettingItem
-            icon={<User size={20} color={theme.primary} />}
-            title={t('profile')}
-            onPress={() => Alert.alert(t('profile'), t('profileSettings'))}
-          />
-          <SettingItem
-            icon={<Mail size={20} color={theme.primary} />}
-            title={t('email')}
-            onPress={() => Alert.alert(t('email'), t('changeEmail'))}
-          />
         </View>
 
         <View style={styles.section}>
@@ -173,25 +131,27 @@ export default function SettingsScreen() {
           <SettingItem
             icon={<Star size={20} color={theme.primary} />}
             title={t('rateApp')}
-            onPress={() => Alert.alert(t('rateApp'), 'App Store/Play Store')}
+            onPress={() => showAlert(t('rateApp'), 'App Store/Play Store', [
+              { text: t('ok'), onPress: hideAlert }
+            ])}
           />
           <SettingItem
             icon={<Info size={20} color={theme.primary} />}
             title={t('about')}
-            onPress={() => Alert.alert(t('about'), 'Version: 1.0.0')}
+            onPress={() => showAlert(t('about'), 'Version: 1.0.0', [
+              { text: t('ok'), onPress: hideAlert }
+            ])}
           />
         </View>
-
-        <TouchableOpacity
-          style={[styles.logoutButton, { borderTopColor: theme.border }]}
-          onPress={handleLogout}
-        >
-          <LogOut size={20} color={theme.error} />
-          <Text style={[styles.logoutText, { color: theme.error }]}>
-            {t('logout')}
-          </Text>
-        </TouchableOpacity>
       </ScrollView>
+
+      <CustomAlert
+        visible={alertVisible}
+        title={alertConfig.title}
+        message={alertConfig.message}
+        buttons={alertConfig.buttons}
+        onClose={hideAlert}
+      />
     </SafeAreaView>
   );
 }
@@ -236,18 +196,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     marginLeft: 12,
   },
-  logoutButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 16,
-    marginTop: 24,
-    marginBottom: 24,
-    borderTopWidth: 1,
-  },
-  logoutText: {
-    fontSize: 16,
-    marginLeft: 8,
-    fontWeight: 'bold',
-  },
-}); 
+});

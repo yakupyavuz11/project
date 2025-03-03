@@ -1,0 +1,30 @@
+{
+  "cli": {
+    "version": ">= 15.0.12",
+    "appVersionSource": "remote"
+  },
+  "build": {
+    "development": {
+      "developmentClient": true,
+      "distribution": "internal",
+      "env": {
+        "GOOGLE_MOBILE_ADS_APP_ID": "ca-app-pub-4055906809006000~4096740251"
+      }
+    },
+    "preview": {
+      "distribution": "internal",
+      "env": {
+        "GOOGLE_MOBILE_ADS_APP_ID": "ca-app-pub-4055906809006000~4096740251"
+      }
+    },
+    "production": {
+      "autoIncrement": true,
+      "env": {
+        "GOOGLE_MOBILE_ADS_APP_ID": "ca-app-pub-4055906809006000~4096740251"
+      }
+    }
+  },
+  "submit": {
+    "production": {}
+  }
+}

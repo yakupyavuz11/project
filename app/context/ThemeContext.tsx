@@ -30,6 +30,7 @@ interface Theme {
     iftar: string;
     sahur: string;
   };
+  buttonText: string; // Buton metin rengi eklendi
 }
 
 const lightTheme: Theme = {
@@ -60,7 +61,8 @@ const lightTheme: Theme = {
   ramadan: {
     iftar: '#E91E63',
     sahur: '#673AB7'
-  }
+  },
+  buttonText: '#FFFFFF', // Light modda buton metin rengi beyaz
 };
 
 const darkTheme: Theme = {
@@ -91,7 +93,8 @@ const darkTheme: Theme = {
   ramadan: {
     iftar: '#F06292',
     sahur: '#9575CD'
-  }
+  },
+  buttonText: '#000000', // Dark modda buton metin rengi siyah
 };
 
 interface ThemeContextType {
@@ -143,4 +146,4 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       {children}
     </ThemeContext.Provider>
   );
-}; 
+};
