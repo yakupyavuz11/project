@@ -23,7 +23,6 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useTranslation } from 'react-i18next';
 import { useTheme } from '../context/ThemeContext';
-import AdBanner from '../components/AdBanner'; // Importing the AdBanner component
 
 interface PrayerTimes {
   Fajr: string;
@@ -472,7 +471,6 @@ export default function HomeScreen() {
             </View>
           </View>
         )}
-        <AdBanner/> 
       </ScrollView>
     </SafeAreaView>
   );

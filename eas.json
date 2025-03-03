@@ -6,22 +6,13 @@
   "build": {
     "development": {
       "developmentClient": true,
-      "distribution": "internal",
-      "env": {
-        "GOOGLE_MOBILE_ADS_APP_ID": "ca-app-pub-4055906809006000~4096740251"
-      }
+      "distribution": "internal"
     },
     "preview": {
-      "distribution": "internal",
-      "env": {
-        "GOOGLE_MOBILE_ADS_APP_ID": "ca-app-pub-4055906809006000~4096740251"
-      }
+      "distribution": "internal"
     },
     "production": {
-      "autoIncrement": true,
-      "env": {
-        "GOOGLE_MOBILE_ADS_APP_ID": "ca-app-pub-4055906809006000~4096740251"
-      }
+      "autoIncrement": true
     }
   },
   "submit": {
