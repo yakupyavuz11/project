@@ -34,15 +34,22 @@
       "package": "com.namazvakti.app",
       "permissions": [
         "ACCESS_COARSE_LOCATION",
-        "ACCESS_FINE_LOCATION"
-      ]
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_BACKGROUND_LOCATION"
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "YOUR_GOOGLE_MAPS_API_KEY"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
       "expo-location",
-      "expo-sensors"
+      "expo-sensors",
+      "expo-build-properties"
     ],
     "extra": {
       "eas": {
