@@ -1,9 +1,11 @@
 import { Tabs } from 'expo-router';
 import { useTheme } from '../context/ThemeContext';
 import { Home, Moon, Calendar, Compass } from 'lucide-react-native';
+import { useTranslation } from 'react-i18next';
 
 export default function TabLayout() {
   const { theme } = useTheme();
+  const { t } = useTranslation();
 
   return (
     <Tabs
@@ -32,28 +34,28 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Ana Sayfa',
+          title: t('home'),
           tabBarIcon: ({ color, size }) => <Home size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="prayer-times"
         options={{
-          title: 'Namaz',
+          title: t('prayer'),
           tabBarIcon: ({ color, size }) => <Moon size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="ramadan"
         options={{
-          title: 'Ramazan',
+          title: t('ramadan'),
           tabBarIcon: ({ color, size }) => <Calendar size={size} color={color} />,
         }}
       />
       <Tabs.Screen
         name="qibla"
         options={{
-          title: 'Kıble',
+          title: t('qibla'),
           tabBarIcon: ({ color, size }) => <Compass size={size} color={color} />,
         }}
       />

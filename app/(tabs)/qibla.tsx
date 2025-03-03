@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ActivityIndicator, TouchableOpacity } from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as Location from 'expo-location';
 import { Magnetometer } from 'expo-sensors';
 import { useTheme } from '../context/ThemeContext';
 import { Compass, MapPin, RotateCcw } from 'lucide-react-native';
+import { t } from 'i18next';
 
 export default function QiblaScreen() {
   const { theme } = useTheme();
@@ -12,7 +19,9 @@ export default function QiblaScreen() {
   const [error, setError] = useState<string | null>(null);
   const [magnetometer, setMagnetometer] = useState(0);
   const [qiblaDirection, setQiblaDirection] = useState(0);
-  const [accuracy, setAccuracy] = useState<'high' | 'low' | 'unreliable'>('unreliable');
+  const [accuracy, setAccuracy] = useState<'high' | 'low' | 'unreliable'>(
+    'unreliable'
+  );
 
   const calculateQibla = async () => {
     try {
@@ -31,15 +40,16 @@ export default function QiblaScreen() {
       const KAABA_LAT = 21.422487;
       const KAABA_LNG = 39.826206;
 
-      const phi1 = latitude * Math.PI / 180;
-      const phi2 = KAABA_LAT * Math.PI / 180;
-      const lambda1 = longitude * Math.PI / 180;
-      const lambda2 = KAABA_LNG * Math.PI / 180;
+      const phi1 = (latitude * Math.PI) / 180;
+      const phi2 = (KAABA_LAT * Math.PI) / 180;
+      const lambda1 = (longitude * Math.PI) / 180;
+      const lambda2 = (KAABA_LNG * Math.PI) / 180;
 
       const y = Math.sin(lambda2 - lambda1) * Math.cos(phi2);
-      const x = Math.cos(phi1) * Math.sin(phi2) -
-                Math.sin(phi1) * Math.cos(phi2) * Math.cos(lambda2 - lambda1);
-      const qibla = Math.atan2(y, x) * 180 / Math.PI;
+      const x =
+        Math.cos(phi1) * Math.sin(phi2) -
+        Math.sin(phi1) * Math.cos(phi2) * Math.cos(lambda2 - lambda1);
+      const qibla = (Math.atan2(y, x) * 180) / Math.PI;
 
       setQiblaDirection((qibla + 360) % 360);
       setLoading(false);
@@ -51,14 +61,16 @@ export default function QiblaScreen() {
 
   useEffect(() => {
     calculateQibla();
-    
-    const subscription = Magnetometer.addListener(data => {
-      let angle = Math.atan2(data.y, data.x) * 180 / Math.PI;
+
+    const subscription = Magnetometer.addListener((data) => {
+      let angle = (Math.atan2(data.y, data.x) * 180) / Math.PI;
       angle = (angle + 360) % 360;
       setMagnetometer(angle);
-      
+
       // Pusula hassasiyetini kontrol et
-      const magnitude = Math.sqrt(data.x * data.x + data.y * data.y + data.z * data.z);
+      const magnitude = Math.sqrt(
+        data.x * data.x + data.y * data.y + data.z * data.z
+      );
       if (magnitude > 40) {
         setAccuracy('high');
       } else if (magnitude > 20) {
@@ -87,21 +99,23 @@ export default function QiblaScreen() {
   const getAccuracyText = () => {
     switch (accuracy) {
       case 'high':
-        return 'Pusula hassasiyeti yüksek';
+        return t('high_accuracy');
       case 'low':
-        return 'Pusula hassasiyeti düşük';
+        return t('low_accuracy');
       default:
-        return 'Pusula kalibre edilmeli';
+        return t('unreliable');
     }
   };
 
   if (loading) {
     return (
-      <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: theme.background }]}
+      >
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color={theme.primary} />
           <Text style={[styles.text, { color: theme.text.primary }]}>
-            Kıble yönü hesaplanıyor...
+            {t('calculating_qibla')}
           </Text>
         </View>
       </SafeAreaView>
@@ -110,16 +124,20 @@ export default function QiblaScreen() {
 
   if (error) {
     return (
-      <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+      <SafeAreaView
+        style={[styles.container, { backgroundColor: theme.background }]}
+      >
         <View style={styles.errorContainer}>
-          <Text style={[styles.text, { color: theme.text.primary }]}>{error}</Text>
+          <Text style={[styles.text, { color: theme.text.primary }]}>
+            {error}
+          </Text>
           <TouchableOpacity
             style={[styles.retryButton, { backgroundColor: theme.primary }]}
             onPress={calculateQibla}
           >
             <RotateCcw size={24} color={theme.background} />
             <Text style={[styles.buttonText, { color: theme.background }]}>
-              Tekrar Dene
+              {t('try_again')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -130,11 +148,13 @@ export default function QiblaScreen() {
   const rotation = magnetometer - qiblaDirection;
 
   return (
-    <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.background }]}
+    >
       <View style={styles.header}>
         <Compass size={24} color={theme.primary} />
         <Text style={[styles.title, { color: theme.text.primary }]}>
-          Kıble Pusulası
+          {t('qibla_compass')}
         </Text>
       </View>
 
@@ -151,22 +171,65 @@ export default function QiblaScreen() {
           >
             <View style={[styles.compassInner, { borderColor: theme.border }]}>
               <View style={styles.northContainer}>
-                <Text style={[styles.northText, { color: theme.error }]}>N</Text>
+                <Text style={[styles.northText, { color: theme.error }]}>
+                  N
+                </Text>
               </View>
-              
-              <View style={[styles.directionLine, { backgroundColor: theme.border }]} />
-              <View style={[styles.directionLine, { backgroundColor: theme.border, transform: [{ rotate: '90deg' }] }]} />
-              <View style={[styles.directionLine, { backgroundColor: theme.border, transform: [{ rotate: '45deg' }] }]} />
-              <View style={[styles.directionLine, { backgroundColor: theme.border, transform: [{ rotate: '135deg' }] }]} />
-              
+
+              <View
+                style={[
+                  styles.directionLine,
+                  { backgroundColor: theme.border },
+                ]}
+              />
+              <View
+                style={[
+                  styles.directionLine,
+                  {
+                    backgroundColor: theme.border,
+                    transform: [{ rotate: '90deg' }],
+                  },
+                ]}
+              />
+              <View
+                style={[
+                  styles.directionLine,
+                  {
+                    backgroundColor: theme.border,
+                    transform: [{ rotate: '45deg' }],
+                  },
+                ]}
+              />
+              <View
+                style={[
+                  styles.directionLine,
+                  {
+                    backgroundColor: theme.border,
+                    transform: [{ rotate: '135deg' }],
+                  },
+                ]}
+              />
+
               <View style={styles.arrowContainer}>
-                <View style={[styles.arrowHead, { backgroundColor: theme.primary }]} />
-                <View style={[styles.arrowBody, { backgroundColor: theme.primary }]} />
+                <View
+                  style={[styles.arrowHead, { backgroundColor: theme.primary }]}
+                />
+                <View
+                  style={[styles.arrowBody, { backgroundColor: theme.primary }]}
+                />
               </View>
             </View>
           </View>
-          
-          <View style={[styles.kaaba, { backgroundColor: theme.card.background, borderColor: theme.primary }]}>
+
+          <View
+            style={[
+              styles.kaaba,
+              {
+                backgroundColor: theme.card.background,
+                borderColor: theme.primary,
+              },
+            ]}
+          >
             <MapPin size={28} color={theme.primary} />
           </View>
 
@@ -179,9 +242,9 @@ export default function QiblaScreen() {
           <Text style={[styles.accuracyText, { color: getAccuracyColor() }]}>
             {getAccuracyText()}
           </Text>
-          
+
           <Text style={[styles.hint, { color: theme.text.secondary }]}>
-            Hassas ölçüm için telefonunuzu düz tutun ve sekiz şeklinde hareket ettirin
+            {t('qibla_hint')}
           </Text>
         </View>
       </View>

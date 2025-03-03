@@ -68,14 +68,13 @@ export default function PrayerTimesScreen() {
 
     const now = new Date();
     const prayers = [
-      { name: 'Fajr', displayName: 'İmsak', time: prayerTimes.Fajr },
-      { name: 'Sunrise', displayName: 'Güneş', time: prayerTimes.Sunrise },
-      { name: 'Dhuhr', displayName: 'Öğle', time: prayerTimes.Dhuhr },
-      { name: 'Asr', displayName: 'İkindi', time: prayerTimes.Asr },
-      { name: 'Maghrib', displayName: 'Akşam', time: prayerTimes.Maghrib },
-      { name: 'Isha', displayName: 'Yatsı', time: prayerTimes.Isha }
+      { name: 'Fajr', displayName:  t('imsak'), time: prayerTimes.Fajr },
+      { name: 'Sunrise', displayName:  t('sunrise'), time: prayerTimes.Sunrise },
+      { name: 'Dhuhr', displayName:t('dhuhr'), time: prayerTimes.Dhuhr },
+      { name: 'Asr', displayName: t('asr'), time: prayerTimes.Asr },
+      { name: 'Maghrib', displayName:t('maghrib'), time: prayerTimes.Maghrib },
+      { name: 'Isha', displayName: t('isha'), time: prayerTimes.Isha }
     ];
-
     const currentTime = now.getHours() * 60 + now.getMinutes();
     let nextPrayerFound = false;
 
@@ -88,7 +87,7 @@ export default function PrayerTimesScreen() {
         const diff = prayerTime - currentTime;
         const h = Math.floor(diff / 60);
         const m = diff % 60;
-        setRemainingTime(`${h} saat ${m} dakika`);
+        setRemainingTime(`${h} ${t('hours')} ${m} ${t('minutes')}`);
         nextPrayerFound = true;
         break;
       }
@@ -102,7 +101,7 @@ export default function PrayerTimesScreen() {
       const diff = prayerTime - currentTime;
       const h = Math.floor(diff / 60);
       const m = diff % 60;
-      setRemainingTime(`${h} saat ${m} dakika`);
+      setRemainingTime(`${h} ${t('hours')} ${m} ${t('minutes')}`);
     }
   };
 
@@ -125,31 +124,17 @@ export default function PrayerTimesScreen() {
   };
 
   const PrayerCard = ({ name, time, isNext }: { name: string; time: string; isNext: boolean }) => (
-    <View style={[
-      styles.prayerCard,
-      { 
-        backgroundColor: isNext ? theme.primary : theme.card.background,
-        shadowColor: theme.card.shadow
-      }
-    ]}>
+    <View style={[styles.prayerCard, { backgroundColor: isNext ? theme.primary : theme.card.background }]}>
       <View style={styles.prayerCardContent}>
         <View style={styles.prayerCardLeft}>
           <Clock size={24} color={isNext ? theme.background : theme.primary} />
-          <Text style={[
-            styles.prayerName,
-            { color: isNext ? theme.background : theme.text.primary }
-          ]}>{name}</Text>
+          <Text style={[styles.prayerName, { color: isNext ? theme.background : theme.text.primary }]}>{name}</Text>
         </View>
-        <Text style={[
-          styles.prayerTime,
-          { color: isNext ? theme.background : theme.primary }
-        ]}>{time}</Text>
+        <Text style={[styles.prayerTime, { color: isNext ? theme.background : theme.primary }]}>{time}</Text>
       </View>
       {isNext && (
         <View style={[styles.nextPrayerBadge, { backgroundColor: theme.background }]}>
-          <Text style={[styles.nextPrayerText, { color: theme.primary }]}>
-            {remainingTime}
-          </Text>
+          <Text style={[styles.nextPrayerText, { color: theme.primary }]}>{remainingTime}</Text>
         </View>
       )}
     </View>
@@ -167,31 +152,25 @@ export default function PrayerTimesScreen() {
     <SafeAreaView style={[styles.container, { backgroundColor: theme.background }]}>
       <ScrollView
         style={styles.scrollView}
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
+        refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
       >
         <View style={[styles.header, { borderBottomColor: theme.border }]}>
-          <Text style={[styles.title, { color: theme.text.primary }]}>
-            {t('prayerTimes')}
-          </Text>
+          <Text style={[styles.title, { color: theme.text.primary }]}>{t('prayerTimes')}</Text>
           <View style={[styles.locationContainer, { backgroundColor: theme.surface }]}>
             <MapPin size={20} color={theme.primary} />
-            <Text style={[styles.locationText, { color: theme.text.secondary }]}>
-              {address}
-            </Text>
+            <Text style={[styles.locationText, { color: theme.text.secondary }]}>{address}</Text>
           </View>
         </View>
 
         <View style={styles.content}>
           {prayerTimes && (
             <>
-              <PrayerCard name={t('fajr')} time={prayerTimes.Fajr} isNext={nextPrayer === 'İmsak'} />
-              <PrayerCard name={t('sunrise')} time={prayerTimes.Sunrise} isNext={nextPrayer === 'Güneş'} />
-              <PrayerCard name={t('dhuhr')} time={prayerTimes.Dhuhr} isNext={nextPrayer === 'Öğle'} />
-              <PrayerCard name={t('asr')} time={prayerTimes.Asr} isNext={nextPrayer === 'İkindi'} />
-              <PrayerCard name={t('maghrib')} time={prayerTimes.Maghrib} isNext={nextPrayer === 'Akşam'} />
-              <PrayerCard name={t('isha')} time={prayerTimes.Isha} isNext={nextPrayer === 'Yatsı'} />
+              <PrayerCard name={t('fajr')} time={prayerTimes.Fajr} isNext={nextPrayer === t('imsak')} />
+              <PrayerCard name={t('sunrise')} time={prayerTimes.Sunrise} isNext={nextPrayer === t('sunrise')} />
+              <PrayerCard name={t('dhuhr')} time={prayerTimes.Dhuhr} isNext={nextPrayer === t('dhuhr')} />
+              <PrayerCard name={t('asr')} time={prayerTimes.Asr} isNext={nextPrayer === t('asr')} />
+              <PrayerCard name={t('maghrib')} time={prayerTimes.Maghrib} isNext={nextPrayer === t('maghrib')} />
+              <PrayerCard name={t('isha')} time={prayerTimes.Isha} isNext={nextPrayer === t('isha')} />
             </>
           )}
         </View>

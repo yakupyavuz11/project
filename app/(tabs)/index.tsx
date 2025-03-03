@@ -94,12 +94,12 @@ export default function HomeScreen() {
 
     const now = new Date();
     const prayers = [
-      { name: 'Fajr', displayName: 'İmsak', time: prayerTimes.Fajr },
-      { name: 'Sunrise', displayName: 'Güneş', time: prayerTimes.Sunrise },
-      { name: 'Dhuhr', displayName: 'Öğle', time: prayerTimes.Dhuhr },
-      { name: 'Asr', displayName: 'İkindi', time: prayerTimes.Asr },
-      { name: 'Maghrib', displayName: 'Akşam', time: prayerTimes.Maghrib },
-      { name: 'Isha', displayName: 'Yatsı', time: prayerTimes.Isha }
+      { name: 'Fajr', displayName: t('imsak'), time: prayerTimes.Fajr },
+      { name: 'Sunrise', displayName: t('sunrise'), time: prayerTimes.Sunrise },
+      { name: 'Dhuhr', displayName: t('dhuhr'), time: prayerTimes.Dhuhr },
+      { name: 'Asr', displayName: t('asr'), time: prayerTimes.Asr },
+      { name: 'Maghrib', displayName: t('maghrib'), time: prayerTimes.Maghrib },
+      { name: 'Isha', displayName: t('isha'), time: prayerTimes.Isha }
     ];
 
     const currentTime = now.getHours() * 60 + now.getMinutes();
@@ -114,7 +114,7 @@ export default function HomeScreen() {
         const diff = prayerTime - currentTime;
         const h = Math.floor(diff / 60);
         const m = diff % 60;
-        setRemainingTime(`${h} saat ${m} dakika`);
+        setRemainingTime(`${h} ${t('hours')} ${m} ${t('minutes')}`);
         nextPrayerFound = true;
         break;
       }
@@ -128,7 +128,7 @@ export default function HomeScreen() {
       const diff = prayerTime - currentTime;
       const h = Math.floor(diff / 60);
       const m = diff % 60;
-      setRemainingTime(`${h} saat ${m} dakika`);
+      setRemainingTime(`${h} ${t('hours')} ${m} ${t('minutes')}`);
     }
   };
 
@@ -154,9 +154,9 @@ export default function HomeScreen() {
         const diff = iftarTimeMinutes - currentTime;
         const hours = Math.floor(diff / 60);
         const minutes = diff % 60;
-        setIftarTime(`${hours} saat ${minutes} dakika`);
+        setIftarTime(`${hours} ${t('hours')} ${minutes} ${t('minutes')}`);
       } else {
-        setIftarTime('İftar vakti geldi!');
+        setIftarTime(t('iftar_time_arrived'));
       }
 
       // Sahur için geri sayım
@@ -164,13 +164,13 @@ export default function HomeScreen() {
         const diff = sahurTimeMinutes - currentTime;
         const hours = Math.floor(diff / 60);
         const minutes = diff % 60;
-        setSahurTime(`${hours} saat ${minutes} dakika`);
+        setSahurTime(`${hours} ${t('hours')} ${minutes} ${t('minutes')}`);
       } else {
         // Yarının sahur vakti
         const diff = (24 * 60 + sahurTimeMinutes) - currentTime;
         const hours = Math.floor(diff / 60);
         const minutes = diff % 60;
-        setSahurTime(`${hours} saat ${minutes} dakika`);
+        setSahurTime(`${hours} ${t('hours')} ${minutes} ${t('minutes')}`);
       }
     } catch (error) {
       console.error('Ramazan vakitleri hesaplanırken hata:', error);
